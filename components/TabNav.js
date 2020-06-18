@@ -14,16 +14,18 @@ const Tab =
 export default function TabNav() {
   return (
     <Tab.Navigator
+      barStyle={{ backgroundColor: light }}
+      activeColor={accent}
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
+        tabBarIcon: ({ color }) => {
           let iconName = null
           if (route.name === 'Take Quiz') {
             iconName = 'question-circle'
-            return <FontAwesome name={iconName} size={size} color={color} />
+            return <FontAwesome name={iconName} size={25} color={color} />
           } else if (route.name === 'Add Deck') {
             if (Platform.OS === 'ios') iconName = 'ios-add-circle'
             else iconName = 'md-add-circle'
-            return <Ionicons name={iconName} size={size} color={color} />
+            return <Ionicons name={iconName} size={25} color={color} />
           }
         },
       })}

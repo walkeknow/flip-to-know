@@ -1,10 +1,22 @@
 import React from 'react'
 import { Text, TouchableOpacity, StyleSheet } from 'react-native'
 
-export default function CustomButton({ children, color }) {
+export default function CustomButton({
+  children,
+  color,
+  handleSubmit,
+  borderColor,
+}) {
   return (
-    <TouchableOpacity style={[styles.button, { backgroundColor: color }]}>
-      <Text style={styles.buttonText}>{children}</Text>
+    <TouchableOpacity
+      onPress={() => handleSubmit()}
+      style={[
+        styles.button,
+        { backgroundColor: color },
+        borderColor && { borderColor: borderColor, borderWidth: 3 },
+      ]}
+    >
+      <Text style={[styles.buttonText, borderColor && {color: '#000000'}]}>{children}</Text>
     </TouchableOpacity>
   )
 }

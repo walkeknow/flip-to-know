@@ -5,6 +5,7 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  Alert,
 } from 'react-native'
 import {
   background,
@@ -17,6 +18,7 @@ import {
 } from '../utils/colors'
 import CustomInput from './CustomInput'
 import CustomButton from './CustomButton'
+import { color } from 'react-native-reanimated'
 
 function ColorPicker({ color, handleSelect, selectedColor }) {
   return (
@@ -33,8 +35,8 @@ function ColorPicker({ color, handleSelect, selectedColor }) {
 
 export default class AddDeck extends Component {
   state = {
-    query: null,
-    selectedColor: 'lightPink',
+    query: '',
+    selectedColor: '',
   }
   handleInput = (query) => {
     this.setState(() => ({
@@ -45,6 +47,18 @@ export default class AddDeck extends Component {
     this.setState(() => ({
       selectedColor: color,
     }))
+  }
+  handleSubmit = () => {
+    const {query, selectedColor} = this.state
+    if (query === '') Alert.alert('Title cannot be empty!')
+    else if (selectedColor === '') Alert.alert('Please select a color')
+    else {
+      console.log(query, selectedColor)
+      this.setState(() => ({
+        query: '',
+        selectedColor: '',
+      }))
+    }
   }
   render() {
     const colors = [lightPink, lightYellow, lightGreen, lightBlue]
@@ -73,7 +87,7 @@ export default class AddDeck extends Component {
           />
         </View>
         <View style={styles.inputContainer}>
-          <CustomButton color={dark}>Submit</CustomButton>
+          <CustomButton color={dark} handleSubmit={this.handleSubmit}>Submit</CustomButton>
         </View>
       </View>
     )
