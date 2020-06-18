@@ -11,19 +11,19 @@ export default class ViewDeck extends Component {
   // redirect to home
   handleSubmit = () => {}
   render() {
-    const Deckobj = Object.values(DATA)[0]
-    console.log(Deckobj)
+    const DeckObj = Object.values(DATA)[0]
+    console.log(DeckObj)
     return (
       <View style={styles.deckContainer}>
-        <View style={[styles.deck, { backgroundColor: Deckobj.color }]}>
+        <View style={[styles.deck, { backgroundColor: DeckObj.color }]}>
           <View style={styles.iconContainer}>
             <TouchableOpacity>
               <FontAwesome name='trash' size={29} color={red} />
             </TouchableOpacity>
           </View>
           <View style={styles.deckText}>
-            <Text style={styles.deckTitle}>React</Text>
-            <Text style={styles.deckDesc}>2 Cards</Text>
+            <Text style={styles.deckTitle}>{DeckObj.title}</Text>
+            <Text style={styles.deckDesc}>{DeckObj.questions.length} Cards</Text>
           </View>
           <View style={styles.buttonContainer}>
             <CustomButton

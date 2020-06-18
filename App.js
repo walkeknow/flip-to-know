@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import TabNav from './components/TabNav'
 import { light } from './utils/colors'
 import ViewDeck from './components/ViewDeck'
+import AddCard from './components/AddCard'
 
 const Stack = createStackNavigator()
 
@@ -15,13 +16,12 @@ export default function App() {
       screenOptions={({route}) => ({
         headerStyle: {
           backgroundColor: light,
-
         },
-        title: route.name === 'Deck' && ''
       })}
       >
         {/* <Stack.Screen name='Home' component={TabNav} /> */}
-        <Stack.Screen name='Deck' component={ViewDeck} />
+        {/* <Stack.Screen name='View Deck' component={ViewDeck} /> */}
+        <Stack.Screen name='Add Card' component={AddCard} />
       </Stack.Navigator>
     </NavigationContainer>
   )
