@@ -1,19 +1,22 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
-export default function DeckListItem({ title, color }) {
+export default function DeckListItem({ title, color, cards }) {
   console.log(title, color)
   return (
     <TouchableOpacity style={[styles.deckItem, { backgroundColor: color }]}>
       <Text style={styles.deckTitle}>{title}</Text>
+      <Text>
+        {cards} {cards === 1 ? 'Card' : 'Cards'}
+      </Text>
     </TouchableOpacity>
   )
 }
 
 const styles = StyleSheet.create({
   deckItem: {
-    width: 140,
-    height: 120,
+    width: 150,
+    height: 140,
     margin: 10,
     borderRadius: 5,
     borderStyle: 'solid',

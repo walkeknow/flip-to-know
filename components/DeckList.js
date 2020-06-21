@@ -17,7 +17,7 @@ export default function DeckList() {
         style={styles.deckList}
         numColumns={2}
         renderItem={({ item }) => (
-          <DeckListItem title={item.title} color={item.color} />
+          <DeckListItem cards={item.questions.length} title={item.title} color={item.color} />
         )}
         keyExtractor={(item) => item.title}
       />

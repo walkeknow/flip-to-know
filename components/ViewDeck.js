@@ -29,6 +29,7 @@ export default class ViewDeck extends Component {
             <CustomButton
               borderColor={dark}
               color={white}
+              darkText={true}
               handleSubmit={this.handleSubmit}
             >
               Add Card

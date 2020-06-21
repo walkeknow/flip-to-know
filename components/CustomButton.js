@@ -6,6 +6,7 @@ export default function CustomButton({
   color,
   handleSubmit,
   borderColor,
+  darkText,
 }) {
   return (
     <TouchableOpacity
@@ -16,7 +17,7 @@ export default function CustomButton({
         borderColor && { borderColor: borderColor, borderWidth: 3 },
       ]}
     >
-      <Text style={[styles.buttonText, borderColor && {color: '#000000'}]}>{children}</Text>
+      <Text style={[styles.buttonText, darkText === true && {color: '#000000'}]}>{children}</Text>
     </TouchableOpacity>
   )
 }

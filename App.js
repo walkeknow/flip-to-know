@@ -6,6 +6,7 @@ import TabNav from './components/TabNav'
 import { light } from './utils/colors'
 import ViewDeck from './components/ViewDeck'
 import AddCard from './components/AddCard'
+import Quiz from './components/Quiz'
 
 const Stack = createStackNavigator()
 
@@ -13,15 +14,16 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-      screenOptions={({route}) => ({
-        headerStyle: {
-          backgroundColor: light,
-        },
-      })}
+        screenOptions={({ route }) => ({
+          headerStyle: {
+            backgroundColor: light,
+          },
+        })}
       >
         {/* <Stack.Screen name='Home' component={TabNav} /> */}
         {/* <Stack.Screen name='View Deck' component={ViewDeck} /> */}
-        <Stack.Screen name='Add Card' component={AddCard} />
+        {/* <Stack.Screen name='Add Card' component={AddCard} /> */}
+        <Stack.Screen name='Quiz' component={Quiz} />
       </Stack.Navigator>
     </NavigationContainer>
   )

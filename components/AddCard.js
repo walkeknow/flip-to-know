@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet } from 'react-native'
 import { DATA } from '../utils/helpers'
 import CustomButton from './CustomButton'
 import { dark } from '../utils/colors'
@@ -22,9 +22,7 @@ export default class AddCard extends Component {
       answer: query,
     }))
   }
-  handleSubmit = () => {
-
-  }
+  handleSubmit = () => {}
   render() {
     const DeckObj = Object.values(DATA)[0]
     return (
@@ -84,7 +82,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   buttonContainer: {
     flex: 1,
