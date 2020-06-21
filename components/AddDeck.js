@@ -53,7 +53,7 @@ export default class AddDeck extends Component {
     if (query === '') Alert.alert('Title cannot be empty!')
     else if (selectedColor === '') Alert.alert('Please select a color')
     else {
-      console.log(query, selectedColor)
+      this.props.navigation.navigate('Take Quiz')
       this.setState(() => ({
         query: '',
         selectedColor: '',

@@ -6,10 +6,12 @@ import CustomButton from './CustomButton'
 import { dark, white, red, primary } from '../utils/colors'
 
 export default class ViewDeck extends Component {
-  // todo: 
+  // todo:
   // handle delete deck
   // redirect to home
-  handleSubmit = () => {}
+  handleDeleteDeck = () => {
+    this.props.navigation.goBack()
+  }
   render() {
     const DeckObj = Object.values(DATA)[0]
     console.log(DeckObj)
@@ -17,24 +19,26 @@ export default class ViewDeck extends Component {
       <View style={styles.deckContainer}>
         <View style={[styles.deck, { backgroundColor: DeckObj.color }]}>
           <View style={styles.iconContainer}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this.handleDeleteDeck}>
               <FontAwesome name='trash' size={29} color={red} />
             </TouchableOpacity>
           </View>
           <View style={styles.deckText}>
             <Text style={styles.deckTitle}>{DeckObj.title}</Text>
-            <Text style={styles.deckDesc}>{DeckObj.questions.length} Cards</Text>
+            <Text style={styles.deckDesc}>
+              {DeckObj.questions.length} Cards
+            </Text>
           </View>
           <View style={styles.buttonContainer}>
             <CustomButton
               borderColor={dark}
               color={white}
               darkText={true}
-              handleSubmit={this.handleSubmit}
+              handleSubmit={() => this.props.navigation.navigate('Add Card')}
             >
               Add Card
             </CustomButton>
-            <CustomButton color={dark} handleSubmit={this.handleSubmit}>
+            <CustomButton color={dark} handleSubmit={() => this.props.navigation.navigate('Quiz')}>
               Start Quiz
             </CustomButton>
           </View>
@@ -68,14 +72,14 @@ const styles = StyleSheet.create({
   deckText: {
     flex: 2,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   deckTitle: {
     fontSize: 60,
-    color: primary
+    color: primary,
   },
   deckDesc: {
-    fontSize: 22
+    fontSize: 22,
   },
   buttonContainer: {
     flex: 2,

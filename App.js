@@ -20,9 +20,9 @@ export default function App() {
           },
         })}
       >
-        {/* <Stack.Screen name='Home' component={TabNav} /> */}
-        {/* <Stack.Screen name='View Deck' component={ViewDeck} /> */}
-        {/* <Stack.Screen name='Add Card' component={AddCard} /> */}
+        <Stack.Screen name='Home' component={TabNav} />
+        <Stack.Screen name='View Deck' component={ViewDeck} />
+        <Stack.Screen name='Add Card' component={AddCard} />
         <Stack.Screen name='Quiz' component={Quiz} />
       </Stack.Navigator>
     </NavigationContainer>

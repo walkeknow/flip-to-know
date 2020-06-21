@@ -1,10 +1,12 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
-export default function DeckListItem({ title, color, cards }) {
-  console.log(title, color)
+export default function DeckListItem({ title, color, cards, navigation }) {
   return (
-    <TouchableOpacity style={[styles.deckItem, { backgroundColor: color }]}>
+    <TouchableOpacity
+      style={[styles.deckItem, { backgroundColor: color }]}
+      onPress={() => navigation.navigate('View Deck')}
+    >
       <Text style={styles.deckTitle}>{title}</Text>
       <Text>
         {cards} {cards === 1 ? 'Card' : 'Cards'}

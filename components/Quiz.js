@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Alert } from 'react-native'
 import { DATA } from '../utils/helpers'
 import CardFlip from 'react-native-card-flip'
 import CardFront from './CardFront'
 import CardBack from './CardBack'
-import Score from './Score'
+import Score from './CardScore'
 
 export default class Quiz extends Component {
   componentDidMount() {
@@ -30,12 +30,21 @@ export default class Quiz extends Component {
   flipCard = () => {
     this.card.flip()
   }
+  handleRestartQuiz = () => {
+    this.setState(({ questions }) => ({
+      cardNumber: 1,
+      currentQuestion: questions[0].question,
+      currentAnswer: questions[0].answer,
+      score: 0,
+      displayScore: false,
+    }))
+  }
   handleCorrectAnswer = () => {
     console.log('correct', this.state)
-    this.flipCard()
     const totalCards = this.state.questions.length
     this.setState(({ cardNumber, score, questions }) => {
       if (cardNumber < totalCards) {
+        this.flipCard()
         const question = questions[cardNumber].question
         const answer = questions[cardNumber].answer
         return {
@@ -45,32 +54,39 @@ export default class Quiz extends Component {
           currentAnswer: answer,
         }
       } else {
-        return {
-          displayScore: true,
-          score: (score += 1),
-        }
+        Alert.alert('Quiz complete!', '', [
+          {
+            text: 'View Score',
+            onPress: () =>
+              this.setState(() => ({
+                displayScore: true,
+                score: (score += 1),
+              })),
+          },
+        ])
       }
     })
   }
   handleIncorrectAnswer = () => {
     console.log('incorrect', this.state)
     const totalCards = this.state.questions.length
-    this.flipCard()
-    this.setState(({ cardNumber, score, questions }) => {
+    this.setState(({ cardNumber, questions }) => {
       if (cardNumber < totalCards) {
+        this.flipCard()
         const question = questions[cardNumber].question
         const answer = questions[cardNumber].answer
         return {
           cardNumber: (cardNumber += 1),
-          score: score !== 0 ? (score -= 1) : score,
           currentQuestion: question,
           currentAnswer: answer,
         }
       } else {
-        return {
-          displayScore: true,
-          score: score !== 0 ? (score -= 1) : score,
-        }
+        Alert.alert('Quiz complete!', '', [
+          {
+            text: 'View Score',
+            onPress: () => this.setState(() => ({ displayScore: true })),
+          },
+        ])
       }
     })
   }
@@ -92,6 +108,8 @@ export default class Quiz extends Component {
             color={color}
             score={this.state.score}
             totalCards={totalCards}
+            navigation={this.props.navigation}
+            handleRestartQuiz={this.handleRestartQuiz}
           />
         </View>
       )

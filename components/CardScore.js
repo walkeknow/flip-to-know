@@ -3,16 +3,15 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { dark, primary, white } from '../utils/colors'
 import CustomButton from './CustomButton'
 
-export default class CardBack extends Component {
-  // todo
-  handleRestartQuiz = () => {
-    // navigate back to Quiz
-  }
-  handleBackToDeck = () => {
-    // navigate to Deck
-  }
+export default class CardScore extends Component {
   render() {
-    const { color, score, totalCards} = this.props
+    const {
+      color,
+      score,
+      totalCards,
+      navigation,
+      handleRestartQuiz,
+    } = this.props
     const percentage = (score / totalCards) * 100
     let remark = ''
     if (percentage <= 35) {
@@ -20,12 +19,12 @@ export default class CardBack extends Component {
     } else if (percentage >= 75) {
       remark = 'You are a genius!'
     } else {
-      remark = 'Amazing!'
+      remark = 'Great!'
     }
     return (
       <View style={[styles.card, { backgroundColor: color }]}>
         <View style={styles.scoreContainer}>
-          <Text style={{ fontSize: 22, textAlign: 'center' }}>Your Score:</Text>
+          <Text style={{ fontSize: 22, textAlign: 'center' }}>You Scored:</Text>
           <Text
             style={{
               fontSize: 57,
@@ -41,13 +40,13 @@ export default class CardBack extends Component {
         <View style={styles.buttonContainer}>
           <CustomButton
             color={white}
-            handleSubmit={this.handleRestartQuiz}
+            handleSubmit={handleRestartQuiz}
             borderColor={dark}
             darkText={true}
           >
             Restart Quiz
           </CustomButton>
-          <CustomButton color={dark} handleSubmit={this.handleBackToDeck}>
+          <CustomButton color={dark} handleSubmit={() => navigation.goBack()}>
             Back to Deck
           </CustomButton>
         </View>
