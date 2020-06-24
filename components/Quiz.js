@@ -1,21 +1,22 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Alert } from 'react-native'
-import { DATA } from '../utils/helpers'
+import { DATA } from '../utils/data'
 import CardFlip from 'react-native-card-flip'
 import CardFront from './CardFront'
 import CardBack from './CardBack'
 import Score from './CardScore'
+import { connect } from 'react-redux'
 
-export default class Quiz extends Component {
+class Quiz extends Component {
   componentDidMount() {
-    const DeckObj = Object.values(DATA)[0]
-    console.log(DeckObj)
+    const { deck } = this.props
     this.setState(() => ({
-      color: DeckObj.color,
-      questions: DeckObj.questions,
+      color: deck.color,
+      questions: deck.questions,
       cardNumber: 1,
-      currentQuestion: DeckObj.questions[0].question,
-      currentAnswer: DeckObj.questions[0].answer,
+      currentQuestion: deck.questions[0].question,
+      currentAnswer: deck.questions[0].answer,
+      loadingNewQuestion: false,
     }))
   }
   state = {
@@ -30,6 +31,12 @@ export default class Quiz extends Component {
   flipCard = () => {
     this.card.flip()
   }
+  handleLoadingNewQuestion() {
+    setInterval(
+      () => this.setState(() => ({ loadingNewQuestion: false })),
+      1000
+    )
+  }
   handleRestartQuiz = () => {
     this.setState(({ questions }) => ({
       cardNumber: 1,
@@ -40,7 +47,6 @@ export default class Quiz extends Component {
     }))
   }
   handleCorrectAnswer = () => {
-    console.log('correct', this.state)
     const totalCards = this.state.questions.length
     this.setState(({ cardNumber, score, questions }) => {
       if (cardNumber < totalCards) {
@@ -52,6 +58,7 @@ export default class Quiz extends Component {
           score: (score += 1),
           currentQuestion: question,
           currentAnswer: answer,
+          loadingNewQuestion: true,
         }
       } else {
         Alert.alert('Quiz complete!', '', [
@@ -66,9 +73,9 @@ export default class Quiz extends Component {
         ])
       }
     })
+    this.handleLoadingNewQuestion()
   }
   handleIncorrectAnswer = () => {
-    console.log('incorrect', this.state)
     const totalCards = this.state.questions.length
     this.setState(({ cardNumber, questions }) => {
       if (cardNumber < totalCards) {
@@ -79,6 +86,7 @@ export default class Quiz extends Component {
           cardNumber: (cardNumber += 1),
           currentQuestion: question,
           currentAnswer: answer,
+          loadingNewQuestion: true,
         }
       } else {
         Alert.alert('Quiz complete!', '', [
@@ -89,6 +97,7 @@ export default class Quiz extends Component {
         ])
       }
     })
+    this.handleLoadingNewQuestion()
   }
   render() {
     const {
@@ -99,6 +108,7 @@ export default class Quiz extends Component {
       currentAnswer,
       score,
       displayScore,
+      loadingNewQuestion,
     } = this.state
     const totalCards = questions.length
     if (displayScore === true) {
@@ -106,7 +116,7 @@ export default class Quiz extends Component {
         <View style={styles.quizContainer}>
           <Score
             color={color}
-            score={this.state.score}
+            score={score}
             totalCards={totalCards}
             navigation={this.props.navigation}
             handleRestartQuiz={this.handleRestartQuiz}
@@ -136,6 +146,7 @@ export default class Quiz extends Component {
             flipCard={this.flipCard}
             handleCorrectAnswer={this.handleCorrectAnswer}
             handleIncorrectAnswer={this.handleIncorrectAnswer}
+            loadingNewQuestion={loadingNewQuestion}
           />
         </CardFlip>
       </View>
@@ -158,3 +169,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 })
+
+function mapStateToProps(state, { route }) {
+  const { deckId } = route.params
+  return {
+    deck: Object.values(state).filter((object) => object.title === deckId)[0],
+  }
+}
+
+export default connect(mapStateToProps)(Quiz)

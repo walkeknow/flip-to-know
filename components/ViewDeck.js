@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
-import { DATA } from '../utils/helpers'
+import { DATA } from '../utils/data'
 import CustomButton from './CustomButton'
 import { dark, white, red, primary } from '../utils/colors'
+import { connect } from 'react-redux'
 
-export default class ViewDeck extends Component {
+class ViewDeck extends Component {
   // todo:
   // handle delete deck
   // redirect to home
@@ -13,21 +14,19 @@ export default class ViewDeck extends Component {
     this.props.navigation.goBack()
   }
   render() {
-    const DeckObj = Object.values(DATA)[0]
-    console.log(DeckObj)
+    const { deck } = this.props
+    console.log('DECK', deck)
     return (
       <View style={styles.deckContainer}>
-        <View style={[styles.deck, { backgroundColor: DeckObj.color }]}>
+        <View style={[styles.deck, { backgroundColor: deck.color }]}>
           <View style={styles.iconContainer}>
             <TouchableOpacity onPress={this.handleDeleteDeck}>
               <FontAwesome name='trash' size={29} color={red} />
             </TouchableOpacity>
           </View>
           <View style={styles.deckText}>
-            <Text style={styles.deckTitle}>{DeckObj.title}</Text>
-            <Text style={styles.deckDesc}>
-              {DeckObj.questions.length} Cards
-            </Text>
+            <Text style={styles.deckTitle}>{deck.title}</Text>
+            <Text style={styles.deckDesc}>{deck.questions.length} Cards</Text>
           </View>
           <View style={styles.buttonContainer}>
             <CustomButton
@@ -38,7 +37,12 @@ export default class ViewDeck extends Component {
             >
               Add Card
             </CustomButton>
-            <CustomButton color={dark} handleSubmit={() => this.props.navigation.navigate('Quiz')}>
+            <CustomButton
+              color={dark}
+              handleSubmit={() =>
+                this.props.navigation.navigate('Quiz', { deckId: deck.title })
+              }
+            >
               Start Quiz
             </CustomButton>
           </View>
@@ -62,6 +66,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 2,
     borderColor: dark,
+    padding: 2,
   },
   iconContainer: {
     flexDirection: 'row',
@@ -88,3 +93,12 @@ const styles = StyleSheet.create({
     marginBottom: 80,
   },
 })
+
+function mapStateToProps(state, { route }) {
+  const { deckId } = route.params
+  return {
+    deck: Object.values(state).filter((object) => object.title === deckId)[0],
+  }
+}
+
+export default connect(mapStateToProps)(ViewDeck)

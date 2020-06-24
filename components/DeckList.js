@@ -1,28 +1,42 @@
-import React from 'react'
-import { View, Text, StyleSheet,  FlatList } from 'react-native'
+import React, { Component } from 'react'
+import { View, Text, StyleSheet, FlatList } from 'react-native'
 import DeckListItem from './DeckListItem'
 import { background } from '../utils/colors'
-import { DATA } from '../utils/helpers'
+import { receiveDecks } from '../utils/api'
+import { connect } from 'react-redux'
+import { receiveDecksAction } from '../actions'
 
-export default function DeckList({navigation}) {
-  const items = Object.values(DATA)
-  console.log(items, navigation)
-  return (
-    <View style={styles.container}>
-      <View>
-        <Text style={styles.header}>Select a Deck</Text>
+class DeckList extends Component {
+  componentDidMount() {
+    receiveDecks().then((decks) => {
+      this.props.dispatch(receiveDecksAction(decks))
+    })
+  }
+  render() {
+    const { navigation, decks } = this.props
+
+    return (
+      <View style={styles.container}>
+        <View>
+          <Text style={styles.header}>Select a Deck</Text>
+        </View>
+        <FlatList
+          data={decks}
+          style={styles.deckList}
+          numColumns={2}
+          renderItem={({ item }) => (
+            <DeckListItem
+              cards={item.questions.length}
+              title={item.title}
+              color={item.color}
+              navigation={navigation}
+            />
+          )}
+          keyExtractor={(item) => item.title}
+        />
       </View>
-      <FlatList
-        data={Object.values(DATA)}
-        style={styles.deckList}
-        numColumns={2}
-        renderItem={({ item }) => (
-          <DeckListItem cards={item.questions.length} title={item.title} color={item.color} navigation={navigation}/>
-        )}
-        keyExtractor={(item) => item.title}
-      />
-    </View>
-  )
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -37,3 +51,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 })
+
+function mapStateToProps(state) {
+  return {
+    decks: Object.values(state),
+  }
+}
+
+export default connect(mapStateToProps)(DeckList)

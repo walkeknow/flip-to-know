@@ -26,7 +26,7 @@ export default function CardFront({
       </View>
       <View style={styles.hintContainer}>
         <Text style={{ fontSize: 22, textAlign: 'center', color: dark }}>
-          Tap for Answer
+          Tap card for Answer
         </Text>
       </View>
     </TouchableOpacity>
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 2,
     borderColor: dark,
+    padding: 2,
   },
   cardNumberContainer: {
     flex: 1,

@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { dark, primary, green, red, darkGreen, darkRed } from '../utils/colors'
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native'
+import { dark, primary, green, red, darkGreen, darkRed, light } from '../utils/colors'
 import CustomButton from './CustomButton'
 
 export default class CardBack extends Component {
@@ -11,23 +17,29 @@ export default class CardBack extends Component {
     this.props.handleIncorrectAnswer()
   }
   render() {
-    const { flipCard, color, cardNumber, totalCards, answer } = this.props
+    const {
+      flipCard,
+      color,
+      cardNumber,
+      totalCards,
+      answer,
+      loadingNewQuestion,
+    } = this.props
     return (
-      <TouchableOpacity
-        style={[styles.card, { backgroundColor: color }]}
-        onPress={() => flipCard()}
-      >
+      <View style={[styles.card, { backgroundColor: color }]}>
         <View style={styles.cardNumberContainer}>
           <Text style={styles.cardNumber}>{cardNumber}</Text>
           <Text style={styles.cardNumberTotal}>/{totalCards}</Text>
         </View>
         <View style={styles.answerContainer}>
-          <Text style={{ fontSize: 32, textAlign: 'center', color: primary }}>
+          <Text style={{ fontSize: 32, textAlign: 'center', color: primary, paddingBottom: 20 }}>
             Answer:
           </Text>
-          <Text style={{ fontSize: 28, textAlign: 'center', padding: 10 }}>
-            {answer}
-          </Text>
+          <ScrollView>
+            <Text style={{ fontSize: 20, textAlign: 'center', padding: 10, backgroundColor: light }}>
+              {loadingNewQuestion === true ? '' : answer}
+            </Text>
+          </ScrollView>
         </View>
         <View style={styles.buttonContainer}>
           <CustomButton
@@ -46,11 +58,13 @@ export default class CardBack extends Component {
           </CustomButton>
         </View>
         <View style={styles.hintContainer}>
-          <Text style={{ fontSize: 22, textAlign: 'center', color: dark }}>
-            Tap for Question
-          </Text>
+          <TouchableOpacity onPress={() => flipCard()}>
+            <Text style={{ fontSize: 22, textAlign: 'center', color: dark }}>
+              Tap here for Question
+            </Text>
+          </TouchableOpacity>
         </View>
-      </TouchableOpacity>
+      </View>
     )
   }
 }
@@ -66,6 +80,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 2,
     borderColor: dark,
+    padding: 2,
   },
   cardNumberContainer: {
     flex: 1,

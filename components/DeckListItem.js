@@ -5,7 +5,7 @@ export default function DeckListItem({ title, color, cards, navigation }) {
   return (
     <TouchableOpacity
       style={[styles.deckItem, { backgroundColor: color }]}
-      onPress={() => navigation.navigate('View Deck')}
+      onPress={() => navigation.navigate('View Deck', { deckId: title })}
     >
       <Text style={styles.deckTitle}>{title}</Text>
       <Text>
