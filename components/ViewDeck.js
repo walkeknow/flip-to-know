@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 import { DATA } from '../utils/data'
 import CustomButton from './CustomButton'
@@ -15,7 +15,6 @@ class ViewDeck extends Component {
   }
   render() {
     const { deck } = this.props
-    console.log('DECK', deck)
     return (
       <View style={styles.deckContainer}>
         <View style={[styles.deck, { backgroundColor: deck.color }]}>
@@ -33,15 +32,25 @@ class ViewDeck extends Component {
               borderColor={dark}
               color={white}
               darkText={true}
-              handleSubmit={() => this.props.navigation.navigate('Add Card')}
+              handleSubmit={() =>
+                this.props.navigation.navigate('Add Card', {
+                  deckId: deck.title,
+                })
+              }
             >
               Add Card
             </CustomButton>
             <CustomButton
               color={dark}
-              handleSubmit={() =>
-                this.props.navigation.navigate('Quiz', { deckId: deck.title })
-              }
+              handleSubmit={() => {
+                if (deck.questions.length === 0) {
+                  Alert.alert('Add a card to this deck first!')
+                } else {
+                  return this.props.navigation.navigate('Quiz', {
+                    deckId: deck.title,
+                  })
+                }
+              }}
             >
               Start Quiz
             </CustomButton>

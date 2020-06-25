@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, Alert } from 'react-native'
 import { DATA } from '../utils/data'
 import CustomButton from './CustomButton'
 import { dark } from '../utils/colors'
 import CustomInput from './CustomInput'
+import { connect } from 'react-redux'
 
-export default class AddCard extends Component {
+class AddCard extends Component {
   state = {
     question: '',
     answer: '',
@@ -21,13 +22,17 @@ export default class AddCard extends Component {
     }))
   }
   handleSubmit = () => {
-    this.props.navigation.goBack()
+    const { question, answer } = this.state
+    if (question === '' || answer === '') Alert.alert('Please fill both fields!')
+    else {
+      this.props.navigation.goBack()
+    }
   }
   render() {
-    const DeckObj = Object.values(DATA)[0]
+    const { deck } = this.props
     return (
       <View style={styles.deckContainer}>
-        <View style={[styles.deck, { backgroundColor: DeckObj.color }]}>
+        <View style={[styles.deck, { backgroundColor: deck.color }]}>
           <View style={styles.inputContainer}>
             <View style={styles.input}>
               <Text style={styles.label}>Enter Question</Text>
@@ -43,7 +48,6 @@ export default class AddCard extends Component {
                 value={this.state.query}
                 handleInput={this.handleAnswerInput}
                 inCard={true}
-                multiline={true}
               ></CustomInput>
             </View>
           </View>
@@ -92,3 +96,12 @@ const styles = StyleSheet.create({
     marginVertical: 18,
   },
 })
+
+function mapStateToProps(state, { route }) {
+  const { deckId } = route.params
+  return {
+    deck: Object.values(state).filter((object) => object.title === deckId)[0],
+  }
+}
+
+export default connect(mapStateToProps)(AddCard)

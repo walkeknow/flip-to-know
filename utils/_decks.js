@@ -5,7 +5,8 @@ export const DATA_KEY = 'MobileFlashcards:decks'
 
 function setDummyData() {
   const DummyData = getDecks()
-  return AsyncStorage.setItem(DATA_KEY, JSON.stringify(DummyData))
+  AsyncStorage.setItem(DATA_KEY, JSON.stringify(DummyData))
+  return DummyData
 }
 
 export function loadData(data) {

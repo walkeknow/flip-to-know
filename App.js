@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Platform } from 'react-native'
+import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import TabNav from './components/TabNav'
-import { light } from './utils/colors'
+import { light, accent, dark } from './utils/colors'
 import ViewDeck from './components/ViewDeck'
 import AddCard from './components/AddCard'
 import Quiz from './components/Quiz'
@@ -20,11 +20,16 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
+        <StatusBar translucent barStyle='dark-content' />
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={() => ({
               headerStyle: {
                 backgroundColor: light,
+              },
+              headerTintColor: accent,
+              headerTitleStyle: {
+                color: 'black',
               },
             })}
           >

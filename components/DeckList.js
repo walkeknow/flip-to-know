@@ -7,13 +7,27 @@ import { connect } from 'react-redux'
 import { receiveDecksAction } from '../actions'
 
 class DeckList extends Component {
+  state = {
+    ready: false,
+  }
   componentDidMount() {
-    receiveDecks().then((decks) => {
-      this.props.dispatch(receiveDecksAction(decks))
-    })
+    receiveDecks()
+      .then((decks) => {
+        console.log('Hello', decks)
+        this.props.dispatch(receiveDecksAction(decks))
+      })
+      .then(() => this.setState(() => ({ ready: true })))
   }
   render() {
     const { navigation, decks } = this.props
+
+    if (this.state.ready === false) {
+      return (
+        <View style={[styles.container, {justifyContent: 'center'}]}>
+          <Text>Loading...</Text>
+        </View>
+      )
+    }
 
     return (
       <View style={styles.container}>

@@ -19,6 +19,9 @@ import {
 import CustomInput from './CustomInput'
 import CustomButton from './CustomButton'
 import { color } from 'react-native-reanimated'
+import { addDeck } from '../utils/api'
+import { connect } from 'react-redux'
+import { addDeckAction } from '../actions'
 
 function ColorPicker({ color, handleSelect, selectedColor }) {
   return (
@@ -33,7 +36,7 @@ function ColorPicker({ color, handleSelect, selectedColor }) {
   )
 }
 
-export default class AddDeck extends Component {
+class AddDeck extends Component {
   state = {
     query: '',
     selectedColor: '',
@@ -49,10 +52,19 @@ export default class AddDeck extends Component {
     }))
   }
   handleSubmit = () => {
-    const {query, selectedColor} = this.state
+    const { query, selectedColor } = this.state
     if (query === '') Alert.alert('Title cannot be empty!')
     else if (selectedColor === '') Alert.alert('Please select a color')
     else {
+      const newDeck = {
+        title: query,
+        color: selectedColor,
+        questions: []
+      }
+      addDeck(newDeck).then(() => {
+        console.log('THISS')
+        this.props.dispatch(addDeckAction(newDeck))
+      })
       this.props.navigation.navigate('Take Quiz')
       this.setState(() => ({
         query: '',
@@ -87,7 +99,9 @@ export default class AddDeck extends Component {
           />
         </View>
         <View style={styles.inputContainer}>
-          <CustomButton color={dark} handleSubmit={this.handleSubmit}>Submit</CustomButton>
+          <CustomButton color={dark} handleSubmit={this.handleSubmit}>
+            Submit
+          </CustomButton>
         </View>
       </View>
     )
@@ -124,3 +138,5 @@ const styles = StyleSheet.create({
     borderColor: primary,
   },
 })
+
+export default connect()(AddDeck)
