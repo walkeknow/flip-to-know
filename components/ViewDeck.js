@@ -5,17 +5,18 @@ import { DATA } from '../utils/data'
 import CustomButton from './CustomButton'
 import { dark, white, red, primary } from '../utils/colors'
 import { connect } from 'react-redux'
-import { addDeckAction, removeDeckAction } from '../actions'
+import { removeDeckAction } from '../actions'
+import { removeDeck } from '../utils/api'
 
 class ViewDeck extends Component {
   // todo:
   // handle delete deck
   // redirect to home
   handleDeleteDeck = () => {
-    const { deleteStoreDeck, goBack } = this.props
+    const { deleteStoreDeck, goBack, deck } = this.props
     deleteStoreDeck()
     goBack()
-    // removeDeck()
+    removeDeck(deck.title)
   }
   render() {
     const { deck } = this.props

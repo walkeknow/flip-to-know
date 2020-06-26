@@ -32,7 +32,7 @@ class Quiz extends Component {
     this.card.flip()
   }
   handleLoadingNewQuestion() {
-    setInterval(
+    setTimeout(
       () => this.setState(() => ({ loadingNewQuestion: false })),
       1000
     )
