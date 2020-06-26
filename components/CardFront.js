@@ -26,7 +26,7 @@ export default function CardFront({
       </View>
       <View style={styles.hintContainer}>
         <Text style={{ fontSize: 22, textAlign: 'center', color: dark }}>
-          Tap card for Answer
+          Show Answer
         </Text>
       </View>
     </TouchableOpacity>

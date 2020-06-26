@@ -6,11 +6,23 @@ import { dark, white, red, primary } from '../utils/colors'
 import { connect } from 'react-redux'
 import { removeDeckAction } from '../actions'
 import { removeDeck } from '../utils/api'
+import { HeaderBackButton } from '@react-navigation/stack'
 
 class ViewDeck extends Component {
   // todo:
   // handle delete deck
   // redirect to home
+  componentDidMount() {
+    const { navigation } = this.props
+    navigation.setOptions({
+      headerLeft: (props) => (
+        <HeaderBackButton
+          {...props}
+          onPress={() => navigation.navigate('Take Quiz')}
+        />
+      ),
+    })
+  }
   handleDeleteDeck = () => {
     const { deleteStoreDeck, goBack, deck } = this.props
     deleteStoreDeck()

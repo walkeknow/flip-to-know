@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { dark } from '../utils/colors'
 
 export default function DeckListItem({ title, color, cards, navigation }) {
   return (
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderStyle: 'solid',
     borderWidth: 1,
-    borderColor: '#707070',
+    borderColor: dark,
     justifyContent: 'center',
     alignItems: 'center',
   },

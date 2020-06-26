@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
+  Platform,
 } from 'react-native'
 import {
   background,
@@ -29,6 +30,11 @@ function ColorPicker({ color, handleSelect, selectedColor }) {
       style={[
         styles.colorItem,
         { backgroundColor: color },
+        Platform.OS === 'android' && {
+          height: 46,
+          width: 46,
+          borderRadius: 46,
+        },
         selectedColor === color && styles.selectedItem,
       ]}
     />
@@ -55,24 +61,19 @@ class AddDeck extends Component {
     if (query === '') Alert.alert('Title cannot be empty!')
     else if (selectedColor === '') Alert.alert('Please select a color')
     else {
-      const {dispatch, existingDecks} = this.props
+      const { dispatch, existingDecks } = this.props
       if (existingDecks.includes(query)) {
-        Alert.alert(
-          'This deck already exists!',
-          'Do you want to replace it?',
-          [
-            {
-              text: 'No',
-              style: 'cancel',
-            },
-            {
-              text: 'Yes',
-              onPress: () => this.handleAddDeck(query, selectedColor)
-            }
-          ]
-        )
-      }
-      else this.handleAddDeck(query, selectedColor)
+        Alert.alert('This deck already exists!', 'Do you want to replace it?', [
+          {
+            text: 'No',
+            style: 'cancel',
+          },
+          {
+            text: 'Yes',
+            onPress: () => this.handleAddDeck(query, selectedColor),
+          },
+        ])
+      } else this.handleAddDeck(query, selectedColor)
     }
   }
 
@@ -80,13 +81,13 @@ class AddDeck extends Component {
     const newDeck = {
       title: query,
       color: selectedColor,
-      questions: []
+      questions: [],
     }
     addDeck(newDeck).then(() => {
       console.log('THISS')
       this.props.dispatch(addDeckAction(newDeck))
     })
-    this.props.navigation.navigate('Take Quiz')
+    this.props.navigation.navigate('View Deck', { deckId: query })
     this.setState(() => ({
       query: '',
       selectedColor: '',
@@ -120,7 +121,7 @@ class AddDeck extends Component {
         </View>
         <View style={styles.inputContainer}>
           <CustomButton color={dark} handleSubmit={this.handleSubmit}>
-            Submit
+            Create Deck
           </CustomButton>
         </View>
       </View>
@@ -161,7 +162,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    existingDecks: Object.keys(state)
+    existingDecks: Object.keys(state),
   }
 }
 
