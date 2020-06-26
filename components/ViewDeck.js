@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
-import { DATA } from '../utils/data'
 import CustomButton from './CustomButton'
 import { dark, white, red, primary } from '../utils/colors'
 import { connect } from 'react-redux'

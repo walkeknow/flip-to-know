@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, Alert } from 'react-native'
-import { DATA } from '../utils/data'
 import CustomButton from './CustomButton'
 import { dark } from '../utils/colors'
 import CustomInput from './CustomInput'
 import { connect } from 'react-redux'
+import { addCardtoDeckAction } from '../actions'
+import { addCardToDeck } from '../utils/api'
 
 class AddCard extends Component {
   state = {
@@ -23,9 +24,18 @@ class AddCard extends Component {
   }
   handleSubmit = () => {
     const { question, answer } = this.state
-    if (question === '' || answer === '') Alert.alert('Please fill both fields!')
+    const { navigation, dispatch, deck } = this.props
+    if (question === '' || answer === '')
+      Alert.alert('Please fill both fields!')
     else {
-      this.props.navigation.goBack()
+      const cardObj = {
+        deckId: deck.title,
+        question,
+        answer,
+      }
+      dispatch(addCardtoDeckAction(cardObj))
+      navigation.goBack()
+      addCardToDeck(cardObj)
     }
   }
   render() {

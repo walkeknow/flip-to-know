@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Alert } from 'react-native'
-import { DATA } from '../utils/data'
 import CardFlip from 'react-native-card-flip'
 import CardFront from './CardFront'
 import CardBack from './CardBack'

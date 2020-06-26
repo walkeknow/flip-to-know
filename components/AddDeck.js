@@ -18,7 +18,6 @@ import {
 } from '../utils/colors'
 import CustomInput from './CustomInput'
 import CustomButton from './CustomButton'
-import { color } from 'react-native-reanimated'
 import { addDeck } from '../utils/api'
 import { connect } from 'react-redux'
 import { addDeckAction } from '../actions'
@@ -56,21 +55,42 @@ class AddDeck extends Component {
     if (query === '') Alert.alert('Title cannot be empty!')
     else if (selectedColor === '') Alert.alert('Please select a color')
     else {
-      const newDeck = {
-        title: query,
-        color: selectedColor,
-        questions: []
+      const {dispatch, existingDecks} = this.props
+      if (existingDecks.includes(query)) {
+        Alert.alert(
+          'This deck already exists!',
+          'Do you want to replace it?',
+          [
+            {
+              text: 'No',
+              style: 'cancel',
+            },
+            {
+              text: 'Yes',
+              onPress: () => this.handleAddDeck(query, selectedColor)
+            }
+          ]
+        )
       }
-      addDeck(newDeck).then(() => {
-        console.log('THISS')
-        this.props.dispatch(addDeckAction(newDeck))
-      })
-      this.props.navigation.navigate('Take Quiz')
-      this.setState(() => ({
-        query: '',
-        selectedColor: '',
-      }))
+      else this.handleAddDeck(query, selectedColor)
     }
+  }
+
+  handleAddDeck = (query, selectedColor) => {
+    const newDeck = {
+      title: query,
+      color: selectedColor,
+      questions: []
+    }
+    addDeck(newDeck).then(() => {
+      console.log('THISS')
+      this.props.dispatch(addDeckAction(newDeck))
+    })
+    this.props.navigation.navigate('Take Quiz')
+    this.setState(() => ({
+      query: '',
+      selectedColor: '',
+    }))
   }
   render() {
     const colors = [lightPink, lightYellow, lightGreen, lightBlue]
@@ -139,4 +159,10 @@ const styles = StyleSheet.create({
   },
 })
 
-export default connect()(AddDeck)
+function mapStateToProps(state) {
+  return {
+    existingDecks: Object.keys(state)
+  }
+}
+
+export default connect(mapStateToProps)(AddDeck)
