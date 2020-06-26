@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Platform,
 } from 'react-native'
 import { dark, primary, green, red, darkGreen, darkRed, light } from '../utils/colors'
 import CustomButton from './CustomButton'

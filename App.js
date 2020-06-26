@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack'
 import TabNav from './components/TabNav'
 import { light, accent, dark } from './utils/colors'
 import ViewDeck from './components/ViewDeck'
