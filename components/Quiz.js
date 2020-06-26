@@ -110,6 +110,7 @@ class Quiz extends Component {
       displayScore,
       loadingNewQuestion,
     } = this.state
+    const { deck, navigation } = this.props
     const totalCards = questions.length
     if (displayScore === true) {
       return (
@@ -118,8 +119,9 @@ class Quiz extends Component {
             color={color}
             score={score}
             totalCards={totalCards}
-            navigation={this.props.navigation}
+            navigation={navigation}
             handleRestartQuiz={this.handleRestartQuiz}
+            deckId={deck.title}
           />
         </View>
       )

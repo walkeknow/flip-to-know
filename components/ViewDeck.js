@@ -5,59 +5,66 @@ import { DATA } from '../utils/data'
 import CustomButton from './CustomButton'
 import { dark, white, red, primary } from '../utils/colors'
 import { connect } from 'react-redux'
+import { addDeckAction, removeDeckAction } from '../actions'
 
 class ViewDeck extends Component {
   // todo:
   // handle delete deck
   // redirect to home
   handleDeleteDeck = () => {
-    this.props.navigation.goBack()
+    const { deleteStoreDeck, goBack } = this.props
+    deleteStoreDeck()
+    goBack()
+    // removeDeck()
   }
   render() {
     const { deck } = this.props
-    return (
-      <View style={styles.deckContainer}>
-        <View style={[styles.deck, { backgroundColor: deck.color }]}>
-          <View style={styles.iconContainer}>
-            <TouchableOpacity onPress={this.handleDeleteDeck}>
-              <FontAwesome name='trash' size={29} color={red} />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.deckText}>
-            <Text style={styles.deckTitle}>{deck.title}</Text>
-            <Text style={styles.deckDesc}>{deck.questions.length} Cards</Text>
-          </View>
-          <View style={styles.buttonContainer}>
-            <CustomButton
-              borderColor={dark}
-              color={white}
-              darkText={true}
-              handleSubmit={() =>
-                this.props.navigation.navigate('Add Card', {
-                  deckId: deck.title,
-                })
-              }
-            >
-              Add Card
-            </CustomButton>
-            <CustomButton
-              color={dark}
-              handleSubmit={() => {
-                if (deck.questions.length === 0) {
-                  Alert.alert('Add a card to this deck first!')
-                } else {
-                  return this.props.navigation.navigate('Quiz', {
+
+    if (deck) {
+      return (
+        <View style={styles.deckContainer}>
+          <View style={[styles.deck, { backgroundColor: deck.color }]}>
+            <View style={styles.iconContainer}>
+              <TouchableOpacity onPress={this.handleDeleteDeck}>
+                <FontAwesome name='trash' size={29} color={red} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.deckText}>
+              <Text style={styles.deckTitle}>{deck.title}</Text>
+              <Text style={styles.deckDesc}>{deck.questions.length} Cards</Text>
+            </View>
+            <View style={styles.buttonContainer}>
+              <CustomButton
+                borderColor={dark}
+                color={white}
+                darkText={true}
+                handleSubmit={() =>
+                  this.props.navigation.navigate('Add Card', {
                     deckId: deck.title,
                   })
                 }
-              }}
-            >
-              Start Quiz
-            </CustomButton>
+              >
+                Add Card
+              </CustomButton>
+              <CustomButton
+                color={dark}
+                handleSubmit={() => {
+                  if (deck.questions.length === 0) {
+                    Alert.alert('Add a card to this deck first!')
+                  } else {
+                    return this.props.navigation.navigate('Quiz', {
+                      deckId: deck.title,
+                    })
+                  }
+                }}
+              >
+                Start Quiz
+              </CustomButton>
+            </View>
           </View>
         </View>
-      </View>
-    )
+      )
+    } else return null
   }
 }
 
@@ -103,6 +110,14 @@ const styles = StyleSheet.create({
   },
 })
 
+function mapDispatchToProps(dispatch, { navigation, route }) {
+  const { deckId } = route.params
+  return {
+    deleteStoreDeck: () => dispatch(removeDeckAction(deckId)),
+    goBack: () => navigation.goBack(),
+  }
+}
+
 function mapStateToProps(state, { route }) {
   const { deckId } = route.params
   return {
@@ -110,4 +125,4 @@ function mapStateToProps(state, { route }) {
   }
 }
 
-export default connect(mapStateToProps)(ViewDeck)
+export default connect(mapStateToProps, mapDispatchToProps)(ViewDeck)

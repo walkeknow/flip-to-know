@@ -11,6 +11,7 @@ export default class CardScore extends Component {
       totalCards,
       navigation,
       handleRestartQuiz,
+      deckId,
     } = this.props
     const percentage = (score / totalCards) * 100
     let remark = ''
@@ -46,7 +47,10 @@ export default class CardScore extends Component {
           >
             Restart Quiz
           </CustomButton>
-          <CustomButton color={dark} handleSubmit={() => navigation.goBack()}>
+          <CustomButton
+            color={dark}
+            handleSubmit={() => navigation.navigate('View Deck', { deckId })}
+          >
             Back to Deck
           </CustomButton>
         </View>

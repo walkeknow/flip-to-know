@@ -13,18 +13,26 @@ class DeckList extends Component {
   componentDidMount() {
     receiveDecks()
       .then((decks) => {
-        console.log('Hello', decks)
         this.props.dispatch(receiveDecksAction(decks))
       })
       .then(() => this.setState(() => ({ ready: true })))
   }
   render() {
     const { navigation, decks } = this.props
-
     if (this.state.ready === false) {
       return (
-        <View style={[styles.container, {justifyContent: 'center'}]}>
+        <View style={[styles.container, { justifyContent: 'center' }]}>
           <Text>Loading...</Text>
+        </View>
+      )
+    }
+
+    if (decks.length === 0) {
+      return (
+        <View
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+        >
+          <Text style={{fontSize: 22}}>Please add a Deck!</Text>
         </View>
       )
     }
@@ -67,6 +75,7 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state) {
+  // console.log('STATE', state)
   return {
     decks: Object.values(state),
   }

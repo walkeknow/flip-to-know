@@ -17,3 +17,12 @@ export function addDeck({ title, color, questions }) {
     })
   )
 }
+
+export function removeDeck(id) {
+  return AsyncStorage.getItem(DATA_KEY).then((result) => {
+    const data = JSON.parse(result)
+    data[id] = undefined
+    delete data[id]
+    AsyncStorage.setItem(DATA_KEY, JSON.stringify(data))
+  })
+}
