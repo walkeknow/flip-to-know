@@ -11,12 +11,16 @@ import reducer from './reducers'
 import logger from './middleware/logger'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
+import { setLocalNotification } from './utils/helpers'
 
 const Stack = createStackNavigator()
 
 const store = createStore(reducer, applyMiddleware(logger))
 
 export default class App extends Component {
+  componentDidMount() {
+    setLocalNotification()
+  }
   render() {
     return (
       <Provider store={store}>

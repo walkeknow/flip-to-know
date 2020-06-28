@@ -5,6 +5,7 @@ import CardFront from './CardFront'
 import CardBack from './CardBack'
 import Score from './CardScore'
 import { connect } from 'react-redux'
+import { clearNotification, setLocalNotification } from '../utils/helpers'
 
 class Quiz extends Component {
   componentDidMount() {
@@ -31,10 +32,7 @@ class Quiz extends Component {
     this.card.flip()
   }
   handleLoadingNewQuestion() {
-    setTimeout(
-      () => this.setState(() => ({ loadingNewQuestion: false })),
-      1000
-    )
+    setTimeout(() => this.setState(() => ({ loadingNewQuestion: false })), 1000)
   }
   handleRestartQuiz = () => {
     this.setState(({ questions }) => ({
@@ -60,6 +58,9 @@ class Quiz extends Component {
           loadingNewQuestion: true,
         }
       } else {
+        // Clear local notification when a quiz is complete
+        clearNotification().then(setLocalNotification())
+        
         Alert.alert('Quiz complete!', '', [
           {
             text: 'View Score',
@@ -88,6 +89,9 @@ class Quiz extends Component {
           loadingNewQuestion: true,
         }
       } else {
+        // Clear local notification when a quiz is complete
+        clearNotification().then(setLocalNotification())
+
         Alert.alert('Quiz complete!', '', [
           {
             text: 'View Score',
