@@ -1,4 +1,4 @@
-# Mobile Flashcards Project
+# Flip To Know
 
 A flashcard based quiz built using React Native
 

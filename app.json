@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile-flashcards",
-    "slug": "mobile-flashcards",
+    "name": "Flip To Know",
+    "slug": "flip-to-know",
     "platforms": [
       "ios",
       "android",

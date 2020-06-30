@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native'
 import { getDecks } from './helpers'
 
-export const DATA_KEY = 'MobileFlashcards:decks'
+export const DATA_KEY = 'FlipToKnow:decks'
 
 function setDummyData() {
   const DummyData = getDecks()

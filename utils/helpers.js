@@ -3,7 +3,7 @@ import { Notifications } from 'expo'
 import * as Permissions from 'expo-permissions'
 import { AsyncStorage } from 'react-native'
 
-const NOTIFICATION_KEY = 'MobileFlashcards:notifications'
+const NOTIFICATION_KEY = 'FlipToKnow:notifications'
 
 export function getDecks(name = null) {
   const data = {
