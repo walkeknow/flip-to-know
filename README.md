@@ -1,6 +1,6 @@
 # Flip To Know
 
-A flashcard based quiz built using React Native
+A React Native app allowing users to create and answer custom flashcard based quizzes
 
 ## How to use
 
