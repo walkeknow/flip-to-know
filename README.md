@@ -20,7 +20,7 @@ A React Native app allowing users to create and answer custom flashcard based qu
 
 ## Screenshots
 
-![Screenshots](https://drive.google.com/file/d/1fnpai7kKlJjGVTGknI0Lp3fNYSOX1DEc/view?usp=sharing)
+![Screenshots](https://drive.google.com/uc?export=view&id=1fnpai7kKlJjGVTGknI0Lp3fNYSOX1DEc)
 
 ## License
 
