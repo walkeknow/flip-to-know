@@ -18,10 +18,6 @@ A React Native app allowing users to create and answer custom flashcard based qu
 - Run the development server with `yarn start`
 - Press `i` or `a` to open the app on iOS or Android respectively
 
-## Screenshots
-
-![Screenshots](https://drive.google.com/uc?export=view&id=1fnpai7kKlJjGVTGknI0Lp3fNYSOX1DEc)
-
 ## License
 
 The contents of this repository are covered under the [MIT License](LICENSE).
